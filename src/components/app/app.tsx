@@ -1,3 +1,4 @@
+// тестовый коммит для проверки ветки review
 import { CSSProperties } from 'react';
 import clsx from 'clsx';
 
