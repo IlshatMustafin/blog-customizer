@@ -3,10 +3,7 @@
 	left: 0;
 	width: 616px;
 	height: 100%;
-	// overflow: scroll;
-	// Отключил для соответствия макета
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden auto;
 	transform: translate(-616px);
 	transition: transform 0.5s ease;
 }
