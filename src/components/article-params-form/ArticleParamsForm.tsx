@@ -28,7 +28,7 @@ export const ArticleParamsForm = ({
 	currentAppState,
 	onApply,
 }: TArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
 	const [formState, setFormState] = useState<ArticleStateType>(currentAppState);
 
@@ -37,21 +37,21 @@ export const ArticleParamsForm = ({
 	}, [currentAppState]);
 	// Иверсия состояния меню по стрелке
 	const handleToggle = () => {
-		setIsOpen((prev) => !prev);
+		setIsSidebarOpen((prev) => !prev);
 	};
 
 	// Закрытие по клику вне области сайдбара
 	useEffect(() => {
-		if (!isOpen) return;
+		if (!isSidebarOpen) return;
 		const handleOutsideClick = (event: MouseEvent) => {
 			const target = event.target as Node;
 			if (sidebarRef.current && sidebarRef.current.contains(target)) return;
 			if ((target as HTMLElement).closest('[role="button"]')) return;
-			setIsOpen(false);
+			setIsSidebarOpen(false);
 		};
 		window.addEventListener('mousedown', handleOutsideClick);
 		return () => window.removeEventListener('mousedown', handleOutsideClick);
-	}, [isOpen]);
+	}, [isSidebarOpen]);
 
 	// Вспомогательная функция для обновления отдельных полей в стейте формы
 	const handleFieldChange = <K extends keyof ArticleStateType>(
@@ -75,11 +75,11 @@ export const ArticleParamsForm = ({
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={handleToggle} />
+			<ArrowButton isOpen={isSidebarOpen} onClick={handleToggle} />
 			<aside
 				ref={sidebarRef}
 				className={clsx(styles.container, {
-					[styles.container_open]: isOpen,
+					[styles.container_open]: isSidebarOpen,
 				})}>
 				<form
 					className={styles.form}
@@ -90,13 +90,7 @@ export const ArticleParamsForm = ({
 						Задайте параметры
 					</Text>
 
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: '30px',
-							marginTop: '40px',
-						}}>
+					<div className={styles.fieldsContainer}>
 						{/* 2. Селект выбора Шрифта */}
 						<Select
 							title='Шрифт'
